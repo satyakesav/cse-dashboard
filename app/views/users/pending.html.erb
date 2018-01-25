@@ -1,0 +1,41 @@
+<% if logged_in? %>
+  <div class="row">
+    <aside class="col-md-4">
+      <section class="user_info">
+        <%= render 'shared/user_info' %>
+      </section>
+    
+    <br><br><br>
+    
+    <form action="<%=pending_path %>" method="get">
+      <span class="form-group" style="font-weight:normal;">
+        <input type="checkbox" name="filter" id="filter" value="1" style="width: 10%;">
+        <label for="filter">Show Unresolved Posts</label>
+        <input type="submit" value="Filter" ,="" class="btn btn-primary" style="width: 100px;margin-left: 10px;">
+      </span>
+    </form>
+    
+    
+    </aside>
+    <div class="col-md-8">
+      <h3>Posts</h3>
+      <ol class="microposts">
+        <%= render @pending_posts %>
+      </ol>
+  </div>
+  </div>
+<% else %>
+<div class="center jumbotron">
+  <h1>Welcome to CSE Dashboard</h1>
+
+  <h2>
+    This is the home page for the
+    <a href="https://polar-harbor-52142.herokuapp.com/">CSE Dashboard</a>
+    application.
+  </h2>
+
+  <%= link_to "Sign up now!", signup_path, class: "btn btn-lg btn-primary" %>
+</div>
+<%= link_to image_tag("CSE_DB.png", alt: "CSE Dashboard Logo"),
+            'https://polar-harbor-52142.herokuapp.com/' %>
+<% end %>

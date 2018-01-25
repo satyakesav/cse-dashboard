@@ -1,0 +1,39 @@
+<%= form_tag microposts_path, :method => 'get' do %>
+    <%= text_field_tag :search, params[:search], placeholder: "Search by content.." %>
+    <%= submit_tag "Search", class: "btn btn-primary", :name => nil %>
+ <% end %>
+ 
+ <br><br><br><br>
+
+<%= form_for(@micropost) do |f| %>
+  <%= render 'shared/error_messages', object: f.object %>
+  <div class="field">
+    <%= f.text_area :content, placeholder: "Compose new post..." %> <%# CHANGESFORTHEDEMO %>
+  </div>
+  
+<div class="form-inline" style="font-weight:normal;">
+    <%= f.check_box :anony, class: 'form-control', value: false %>
+    <%= f.label :anony, "Post Anonymous", style: 'font-weight:normal' %>
+</div>
+
+  <div class="tag_admin">
+    Tag to notify administrator:
+   <%= f.select :tag, 
+   options_for_select(User.select(:name, :id).where(:admin=> true)
+  .map{|c| [ c.name, c.id ] }), {:include_blank => true}  %>
+  </div>
+  <%= f.submit "Post", class: "btn btn-primary" %>
+  <span class="picture">
+    <%= f.file_field :picture, accept: 'image/jpeg,image/gif,image/png,image/jpg' %>
+    (Maximum 5MB)
+  </span>
+<% end %>
+
+<script type="text/javascript">
+  $('#micropost_picture').bind('change', function() {
+    var size_in_megabytes = this.files[0].size/1024/1024;
+    if (size_in_megabytes > 5) {
+      alert('Maximum file size is 5MB. Please choose a smaller file.');
+    }
+  });
+</script>
